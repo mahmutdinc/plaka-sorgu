@@ -1,0 +1,626 @@
+<!doctype html> 
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plaka Sorgu</title>
+  <style>
+    :root{
+      --bg1:#f7f9ff;
+      --bg2:#f5fff8;
+      --card:#ffffffcc;
+      --stroke:#e7e9f2;
+      --text:#101828;
+      --muted:#667085;
+
+      --primary:#4f46e5;     /* indigo */
+      --primary2:#7c3aed;    /* violet */
+      --success:#12b76a;
+      --danger:#f04438;
+      --warn:#f79009;
+
+      --shadow: 0 10px 30px rgba(16,24,40,.10);
+      --shadow2: 0 8px 18px rgba(16,24,40,.08);
+      --r: 16px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, var(--bg1), transparent 60%),
+        radial-gradient(1200px 600px at 90% 10%, var(--bg2), transparent 60%),
+        #fbfcff;
+      padding:18px;
+    }
+
+    .wrap{max-width:760px; margin:0 auto}
+
+    .hero{
+      border:1px solid var(--stroke);
+      background: linear-gradient(135deg, rgba(79,70,229,.10), rgba(124,58,237,.08));
+      padding:16px 16px 12px;
+      border-radius:22px;
+      box-shadow: var(--shadow);
+    }
+
+    h2{margin:0 0 6px 0; font-size:22px; letter-spacing:.2px}
+    .muted{color:var(--muted); font-size:13px; line-height:1.4}
+    code{background:rgba(79,70,229,.08); color:#2d2a7a; padding:2px 8px; border-radius:999px}
+
+    input, textarea{
+      width:100%;
+      font-size:18px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.92);
+      outline:none;
+      box-shadow: 0 1px 0 rgba(16,24,40,.02);
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(79,70,229,.45);
+      box-shadow: 0 0 0 4px rgba(79,70,229,.12);
+    }
+
+    textarea{
+      min-height:190px;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:14px;
+    }
+
+    .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+
+    button{
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.95);
+      cursor:pointer;
+      box-shadow: var(--shadow2);
+      transition: transform .06s ease, box-shadow .12s ease, border-color .12s ease;
+      font-weight:600;
+      color:#1f2937;
+    }
+    button:active{transform: scale(.99)}
+    button:hover{border-color: rgba(79,70,229,.28)}
+
+    .btn-primary{
+      border-color: rgba(79,70,229,.35);
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      color:white;
+    }
+    .btn-danger{
+      border-color: rgba(240,68,56,.35);
+      background: linear-gradient(135deg, #ff6b6b, var(--danger));
+      color:white;
+    }
+    .btn-ghost{
+      background: rgba(255,255,255,.80);
+    }
+
+    .card{
+      margin-top:14px;
+      padding:14px;
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(6px);
+    }
+
+    .ok{border-color: rgba(18,183,106,.35)}
+    .err{border-color: rgba(240,68,56,.35)}
+    .warn{border-color: rgba(247,144,9,.35)}
+
+    .tabs{
+      display:flex;
+      gap:8px;
+      margin:14px 0 0;
+      padding:10px 0 0;
+    }
+    .tab{
+      padding:9px 12px;
+      border:1px solid var(--stroke);
+      border-radius:999px;
+      cursor:pointer;
+      user-select:none;
+      background: rgba(255,255,255,.85);
+      box-shadow: var(--shadow2);
+      font-weight:700;
+      color:#344054;
+    }
+    .tab.active{
+      background: linear-gradient(135deg, rgba(79,70,229,.14), rgba(124,58,237,.10));
+      border-color: rgba(79,70,229,.25);
+      color:#1d1b5f;
+    }
+
+    .sectionTitle{
+      font-weight:800;
+      margin:0 0 6px 0;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.8);
+      font-size:12px;
+      color:#344054;
+      font-weight:700;
+    }
+
+    .mini{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h2>🚗 Plaka Sorgulama</h2>
+    <div class="muted">
+      Plakayı yazın: <code>06FN087</code> / <code>06 FN 087</code> / <code>06-FN-087</code> (boşluk/tire fark etmez)
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" id="tabSearch">Sorgu</div>
+      <div class="tab" id="tabAdmin">Veri Güncelle</div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div id="viewSearch" class="card">
+    <div class="sectionTitle">🔎 Sorgu</div>
+    <input id="q" placeholder="Plaka" autocomplete="off" inputmode="text" />
+    <div class="row">
+      <button class="btn-ghost" id="clear">Temizle</button>
+      <button class="btn-primary" id="paste">Panodan Yapıştır</button>
+    </div>
+
+    <div id="out" class="card">Sonuç burada görünecek.</div>
+    <div id="matches" class="card" style="display:none"></div>
+
+    <div class="mini" id="meta"></div>
+  </div>
+
+  <!-- ADMIN -->
+  <div id="viewAdmin" class="card" style="display:none">
+    <div class="sectionTitle">🛠 Veri Yönetimi <span class="pill">Offline / cihazda saklanır</span></div>
+
+    <div class="card">
+      <b>CSV formatı</b> (her satır 1 plaka):
+      <div class="muted">
+        Kolon sırası: <code>plaka,blok,daire</code><br>
+        Örnek:
+        <pre style="white-space:pre-wrap;margin:8px 0 0 0">06 FN 087,C2 18,3
+34 MSK 302,C14,1
+35 CFM,C13,10</pre>
+        Not: Aynı dairede birden fazla araç varsa, her plakayı ayrı satır yaz.
+      </div>
+    </div>
+
+    <div style="height:10px"></div>
+    <textarea id="csv" placeholder="Buraya CSV’yi yapıştır..."></textarea>
+
+    <!-- TEK PLAKA EKLE -->
+    <div class="card">
+      <b>Tek Plaka Ekle</b>
+      <div class="muted">3 alanı doldurup ekleyin. (Aynı plaka varsa uyarır.)</div>
+      <div class="row">
+        <input id="newPlaka" placeholder="Plaka (örn: 06 FN 087)">
+        <input id="newBlok" placeholder="Blok (örn: C2/47)">
+        <input id="newDaire" placeholder="Daire (örn: 2)">
+      </div>
+      <div class="row">
+        <button class="btn-primary" id="addSingle">Plakayı Ekle</button>
+      </div>
+    </div>
+
+    <!-- PLAKA SİL -->
+    <div class="card">
+      <b>Plaka Sil</b>
+      <div class="muted">Plakayı yazınca altta kayıt önizlemesi çıkar. (Girdiğin format korunur.)</div>
+      <div class="row">
+        <input id="delPlaka" placeholder="Silinecek plaka (örn: 06 FN 087)">
+      </div>
+      <div class="row">
+        <button class="btn-danger" id="deleteSingle">Plakayı Sil</button>
+      </div>
+      <div id="delPreview" class="card" style="display:none"></div>
+    </div>
+
+    <div class="row">
+      <button class="btn-primary" id="import">CSV'yi Yükle / Kaydet</button>
+      <button class="btn-ghost" id="export">Mevcut Veriyi CSV Olarak Kopyala</button>
+      <button class="btn-danger" id="reset">Tüm Veriyi Sıfırla</button>
+    </div>
+
+    <div id="adminOut" class="card muted">Durum: —</div>
+  </div>
+
+<script>
+  function norm(s){
+    return (s||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+  }
+
+  const STORAGE_KEY = "plaka_sorgu_data_v1";
+
+  function loadData(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return [];
+    try { return JSON.parse(raw); } catch { return []; }
+  }
+
+  function saveData(arr){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  function buildIndex(arr){
+    const idx = new Map();
+    for(const r of arr){
+      const k = norm(r.plaka);
+      if(!k) continue;
+      if(!idx.has(k)) idx.set(k, r);
+    }
+    return idx;
+  }
+
+  function buildMultiIndex(arr){
+    const m = new Map();
+    for(const r of arr){
+      const k = norm(r.plaka);
+      if(!k) continue;
+      if(!m.has(k)) m.set(k, []);
+      m.get(k).push(r);
+    }
+    return m;
+  }
+
+  function parseCSV(text){
+    const rows = [];
+    const lines = (text||"").split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+
+    for(let ln of lines){
+      if(/blok|daire|plaka/i.test(ln)) continue;
+
+      let parts;
+      if(ln.includes(";")) parts = ln.split(";");
+      else if(ln.includes(",")) parts = ln.split(",");
+      else if(ln.includes("\t")) parts = ln.split("\t");
+      else parts = ln.split(/\s+/);
+
+      if(parts.length < 3) continue;
+      parts = parts.map(p=>p.trim());
+
+      let plaka, blok, daire;
+      if(/^\d{2}/.test(parts[0])){
+        plaka = parts[0]; blok = parts[1]; daire = parts[2];
+      } else {
+        blok = parts[0]; daire = parts[1]; plaka = parts[2];
+      }
+
+      rows.push({ plaka, blok, daire });
+    }
+    return rows;
+  }
+
+  // UI: tabs
+  const tabSearch = document.getElementById("tabSearch");
+  const tabAdmin  = document.getElementById("tabAdmin");
+  const viewSearch = document.getElementById("viewSearch");
+  const viewAdmin  = document.getElementById("viewAdmin");
+
+  function show(tab){
+    const isSearch = tab === "search";
+    tabSearch.classList.toggle("active", isSearch);
+    tabAdmin.classList.toggle("active", !isSearch);
+    viewSearch.style.display = isSearch ? "" : "none";
+    viewAdmin.style.display  = isSearch ? "none" : "";
+  }
+
+  tabSearch.onclick = ()=>show("search");
+  tabAdmin.onclick  = ()=>show("admin");
+
+  // search logic
+  const q = document.getElementById("q");
+  const out = document.getElementById("out");
+  const matches = document.getElementById("matches");
+  const meta = document.getElementById("meta");
+
+  let DATA = loadData();
+  let MULTI = buildMultiIndex(DATA);
+  let IDX = buildIndex(DATA);
+
+  function refreshMeta(){
+    meta.textContent = `Tekil plaka: ${IDX.size} | Toplam satır: ${DATA.length}`;
+  }
+  refreshMeta();
+
+  function render(){
+    const raw = q.value || "";
+    const key = norm(raw);
+
+    if(!key){
+      out.className = "card";
+      out.textContent = "Sonuç burada görünecek.";
+      matches.style.display = "none";
+      matches.innerHTML = "";
+      return;
+    }
+
+    const exactList = MULTI.get(key);
+    if(exactList && exactList.length){
+      const r = exactList[0];
+      out.className = "card ok";
+      out.innerHTML =
+        `✅ <b>${raw.toUpperCase()}</b><br>` +
+        `Blok: <b>${r.blok || "—"}</b><br>` +
+        `Daire: <b>${r.daire || "—"}</b>` +
+        (exactList.length > 1 ? `<br><span class="muted">⚠ Bu plaka ${exactList.length} kez girilmiş (çakışma).</span>` : "");
+      matches.style.display = "none";
+      matches.innerHTML = "";
+      return;
+    }
+
+    const found = [];
+    for(const [p, arr] of MULTI.entries()){
+      if(p.includes(key)) found.push([p, arr]);
+      if(found.length >= 25) break;
+    }
+
+    if(found.length === 0){
+      out.className = "card err";
+      out.innerHTML = `❌ Bulunamadı: <b>${raw.toUpperCase()}</b>`;
+      matches.style.display = "none";
+      matches.innerHTML = "";
+      return;
+    }
+
+    out.className = "card warn";
+    out.innerHTML = `🔎 Tam eşleşme yok. <b>${found.length}</b> adet benzer sonuç bulundu.`;
+
+    matches.style.display = "";
+    matches.className = "card";
+    matches.innerHTML = found.map(([p, arr]) => {
+      const r = arr[0];
+      return `• <b>${p}</b> → ${r.blok || "—"} / ${r.daire || "—"}` +
+             (arr.length>1 ? ` <span class="muted">(⚠ ${arr.length} kez)</span>` : "");
+    }).join("<br>");
+  }
+
+  q.addEventListener("input", render);
+
+  document.getElementById("clear").addEventListener("click", () => {
+    q.value = "";
+    q.focus();
+    render();
+  });
+
+  document.getElementById("paste").addEventListener("click", async () => {
+    try{
+      const txt = await navigator.clipboard.readText();
+      if (txt) q.value = txt.trim();
+      q.focus();
+      render();
+    }catch(e){
+      alert("Panodan okuma izni verilmedi. Plakayı elle yazabilirsiniz.");
+    }
+  });
+
+  // admin logic
+  const csvBox = document.getElementById("csv");
+  const adminOut = document.getElementById("adminOut");
+
+  document.getElementById("import").addEventListener("click", () => {
+    const rows = parseCSV(csvBox.value);
+    if(rows.length === 0){
+      adminOut.className = "card err";
+      adminOut.textContent = "❌ CSV’den hiç kayıt okunamadı. Format: plaka,blok,daire (veya ; / TAB da olur)";
+      return;
+    }
+
+    saveData(rows);
+    DATA = rows;
+    MULTI = buildMultiIndex(DATA);
+    IDX = buildIndex(DATA);
+    refreshMeta();
+
+    adminOut.className = "card ok";
+    adminOut.innerHTML =
+      `✅ Yüklendi.<br>` +
+      `• Toplam satır: <b>${DATA.length}</b><br>` +
+      `• Tekil plaka: <b>${IDX.size}</b>`;
+
+    show("search");
+    q.focus();
+    render();
+  });
+
+  // Tek plaka ekle
+  document.getElementById("addSingle").addEventListener("click", () => {
+    const plaka = document.getElementById("newPlaka").value.trim();
+    const blok  = document.getElementById("newBlok").value.trim();
+    const daire = document.getElementById("newDaire").value.trim();
+
+    if(!plaka || !blok || !daire){
+      adminOut.className = "card err";
+      adminOut.textContent = "❌ Plaka, Blok ve Daire alanlarının üçünü de doldurun.";
+      return;
+    }
+
+    const key = norm(plaka);
+    if(MULTI.has(key)){
+      adminOut.className = "card err";
+      adminOut.innerHTML = `⚠️ Bu plaka zaten kayıtlı: <b>${key}</b>`;
+      return;
+    }
+
+    DATA.push({ plaka, blok, daire });
+    saveData(DATA);
+
+    MULTI = buildMultiIndex(DATA);
+    IDX = buildIndex(DATA);
+    refreshMeta();
+
+    document.getElementById("newPlaka").value = "";
+    document.getElementById("newBlok").value = "";
+    document.getElementById("newDaire").value = "";
+
+    adminOut.className = "card ok";
+    adminOut.innerHTML = `✅ Eklendi: <b>${key}</b> → <b>${blok}</b> / <b>${daire}</b>`;
+  });
+
+  // Silme önizleme
+  const delPlakaInput = document.getElementById("delPlaka");
+  const delPreview = document.getElementById("delPreview");
+
+  delPlakaInput.addEventListener("input", () => {
+    const raw = delPlakaInput.value || "";
+    const key = norm(raw);
+
+    if(!key){
+      delPreview.style.display = "none";
+      delPreview.innerHTML = "";
+      return;
+    }
+
+    const exactList = MULTI.get(key);
+    if(exactList && exactList.length){
+      delPreview.style.display = "";
+      delPreview.className = "card ok";
+      delPreview.innerHTML =
+        `🧾 Girilen: <b>${raw}</b><br>` +
+        exactList.map(r => `• Kayıt: <b>${raw}</b> → <b>${r.blok}</b> / <b>${r.daire}</b>`).join("<br>") +
+        (exactList.length > 1 ? `<br><span class="muted">⚠ Bu plaka ${exactList.length} kez kayıtlı (silince hepsi gider).</span>` : "");
+      return;
+    }
+
+    const found = [];
+    for(const [p, arr] of MULTI.entries()){
+      if(p.includes(key)) found.push([p, arr]);
+      if(found.length >= 15) break;
+    }
+
+    if(found.length === 0){
+      delPreview.style.display = "";
+      delPreview.className = "card err";
+      delPreview.innerHTML = `❌ Bulunamadı: <b>${raw}</b>`;
+      return;
+    }
+
+    delPreview.style.display = "";
+    delPreview.className = "card warn";
+    delPreview.innerHTML =
+      `🔎 Tam eşleşme yok. Benzer kayıtlar:<br>` +
+      found.map(([p, arr]) => {
+        const r = arr[0];
+        return `• <b>${p}</b> → <b>${r.blok}</b> / <b>${r.daire}</b>` +
+               (arr.length>1 ? ` <span class="muted">(⚠ ${arr.length} kez)</span>` : "");
+      }).join("<br>") +
+      `<br><span class="muted">İpucu: Silmek için tam plakayı yazın.</span>`;
+  });
+
+  // Plaka sil (buton)
+  document.getElementById("deleteSingle").addEventListener("click", () => {
+    const plakaRaw = delPlakaInput.value.trim();
+
+    if(!plakaRaw){
+      adminOut.className = "card err";
+      adminOut.textContent = "❌ Silmek için plaka girin.";
+      return;
+    }
+
+    const key = norm(plakaRaw);
+    const existing = MULTI.get(key);
+
+    if(!existing || existing.length === 0){
+      adminOut.className = "card err";
+      adminOut.innerHTML = `❌ Bulunamadı: <b>${key}</b>`;
+      return;
+    }
+
+    const msg = existing.length === 1
+      ? `Plaka silinsin mi?\n\n${key} → ${existing[0].blok} / ${existing[0].daire}`
+      : `Bu plaka ${existing.length} kez kayıtlı (çakışma).\nHepsi silinsin mi?\n\n${key}`;
+
+    if(!confirm(msg)) return;
+
+    DATA = DATA.filter(r => norm(r.plaka) !== key);
+    saveData(DATA);
+
+    MULTI = buildMultiIndex(DATA);
+    IDX = buildIndex(DATA);
+    refreshMeta();
+
+    delPlakaInput.value = "";
+    delPreview.style.display = "none";
+    delPreview.innerHTML = "";
+
+    adminOut.className = "card ok";
+    adminOut.innerHTML = `🗑️ Silindi: <b>${key}</b>`;
+
+    render();
+  });
+
+  document.getElementById("export").addEventListener("click", async () => {
+    const arr = loadData();
+    if(arr.length === 0){
+      adminOut.className = "card err";
+      adminOut.textContent = "❌ Kayıt yok.";
+      return;
+    }
+    const csv = arr.map(r => `${r.plaka},${r.blok},${r.daire}`).join("\n");
+    try{
+      await navigator.clipboard.writeText(csv);
+      adminOut.className = "card ok";
+      adminOut.textContent = "✅ Mevcut veri panoya kopyalandı.";
+    }catch{
+      adminOut.className = "card";
+      adminOut.textContent = "Panoya yazılamadı. Metni manuel kopyalayabilirsiniz:\n\n" + csv;
+    }
+  });
+
+  document.getElementById("reset").addEventListener("click", () => {
+    if(confirm("Tüm veriyi silmek istiyor musunuz?")){
+      localStorage.removeItem(STORAGE_KEY);
+      DATA = [];
+      MULTI = buildMultiIndex(DATA);
+      IDX = buildIndex(DATA);
+      refreshMeta();
+
+      adminOut.className = "card";
+      adminOut.textContent = "🗑️ Veri sıfırlandı.";
+
+      q.value = "";
+      out.className = "card err";
+      out.innerHTML = "⚠️ Henüz veri yüklenmemiş. <b>Veri Güncelle</b> sekmesinden CSV yapıştırıp kaydedin.";
+      matches.style.display = "none";
+      matches.innerHTML = "";
+
+      delPlakaInput.value = "";
+      delPreview.style.display = "none";
+      delPreview.innerHTML = "";
+    }
+  });
+
+  if(IDX.size === 0){
+    out.className = "card err";
+    out.innerHTML = "⚠️ Henüz veri yüklenmemiş. <b>Veri Güncelle</b> sekmesinden CSV yapıştırıp kaydedin.";
+  }
+</script>
+</div>
+</body>
+</html>

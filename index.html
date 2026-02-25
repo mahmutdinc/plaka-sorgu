@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
@@ -6,169 +6,156 @@
   <title>Plaka Sorgu</title>
   <style>
     :root{
-      --bg1:#f7f9ff;
-      --bg2:#f5fff8;
-      --card:#ffffffcc;
-      --stroke:#e7e9f2;
-      --text:#101828;
-      --muted:#667085;
-
-      --primary:#4f46e5;     /* indigo */
-      --primary2:#7c3aed;    /* violet */
-      --success:#12b76a;
-      --danger:#f04438;
-      --warn:#f79009;
-
-      --shadow: 0 10px 30px rgba(16,24,40,.10);
-      --shadow2: 0 8px 18px rgba(16,24,40,.08);
-      --r: 16px;
+      --bg1:#0f172a;
+      --bg2:#312e81;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --text:#0b1220;
+      --line:#e5e7eb;
+      --ok:#16a34a;
+      --err:#ef4444;
+      --warn:#f59e0b;
+      --accent:#6366f1;
+      --accent2:#22c55e;
+      --shadow: 0 14px 40px rgba(0,0,0,.18);
     }
-
     *{box-sizing:border-box}
     body{
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
       margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
       color:var(--text);
       background:
-        radial-gradient(1200px 600px at 10% 0%, var(--bg1), transparent 60%),
-        radial-gradient(1200px 600px at 90% 10%, var(--bg2), transparent 60%),
-        #fbfcff;
+        radial-gradient(1200px 600px at 20% 10%, rgba(99,102,241,.40), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(34,197,94,.35), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height:100vh;
       padding:18px;
     }
-
-    .wrap{max-width:760px; margin:0 auto}
-
+    .wrap{max-width:780px;margin:0 auto}
     .hero{
-      border:1px solid var(--stroke);
-      background: linear-gradient(135deg, rgba(79,70,229,.10), rgba(124,58,237,.08));
-      padding:16px 16px 12px;
-      border-radius:22px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:18px;
+      padding:16px 16px 12px 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      color:#fff;
+    }
+    h2{margin:0 0 6px 0; font-size:22px}
+    .muted{color:rgba(255,255,255,.78); font-size:13px; line-height:1.4}
+    code{background:rgba(255,255,255,.12); padding:2px 8px; border-radius:999px; border:1px solid rgba(255,255,255,.14)}
+    .tabs{display:flex; gap:10px; margin-top:12px}
+    .tab{
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      cursor:pointer; user-select:none;
+      color:#fff;
+      background:rgba(255,255,255,.06);
+      font-weight:600;
+    }
+    .tab.active{
+      background:linear-gradient(135deg, rgba(99,102,241,.9), rgba(34,197,94,.65));
+      border-color:rgba(255,255,255,.22);
+    }
+
+    .panel{
+      margin-top:14px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(255,255,255,.45);
+      border-radius:18px;
+      padding:14px;
       box-shadow: var(--shadow);
     }
 
-    h2{margin:0 0 6px 0; font-size:22px; letter-spacing:.2px}
-    .muted{color:var(--muted); font-size:13px; line-height:1.4}
-    code{background:rgba(79,70,229,.08); color:#2d2a7a; padding:2px 8px; border-radius:999px}
-
-    input, textarea{
+    input, textarea, select{
       width:100%;
-      font-size:18px;
-      padding:12px 14px;
+      font-size:16px;
+      padding:12px;
       border-radius:14px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.92);
+      border:1px solid var(--line);
       outline:none;
-      box-shadow: 0 1px 0 rgba(16,24,40,.02);
+      background:#fff;
+    }
+    textarea{
+      min-height:180px;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:13px;
+      white-space:pre;
     }
     input:focus, textarea:focus{
-      border-color: rgba(79,70,229,.45);
-      box-shadow: 0 0 0 4px rgba(79,70,229,.12);
-    }
-
-    textarea{
-      min-height:190px;
-      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:14px;
+      border-color:rgba(99,102,241,.65);
+      box-shadow:0 0 0 4px rgba(99,102,241,.14);
     }
 
     .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-
     button{
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.95);
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
       cursor:pointer;
-      box-shadow: var(--shadow2);
-      transition: transform .06s ease, box-shadow .12s ease, border-color .12s ease;
-      font-weight:600;
-      color:#1f2937;
+      font-weight:700;
     }
-    button:active{transform: scale(.99)}
-    button:hover{border-color: rgba(79,70,229,.28)}
-
-    .btn-primary{
-      border-color: rgba(79,70,229,.35);
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
-      color:white;
+    button.primary{
+      border-color:transparent;
+      color:#fff;
+      background:linear-gradient(135deg, var(--accent), #8b5cf6);
     }
-    .btn-danger{
-      border-color: rgba(240,68,56,.35);
-      background: linear-gradient(135deg, #ff6b6b, var(--danger));
-      color:white;
+    button.good{
+      border-color:transparent;
+      color:#fff;
+      background:linear-gradient(135deg, var(--accent2), #14b8a6);
     }
-    .btn-ghost{
-      background: rgba(255,255,255,.80);
+    button.danger{
+      border-color:transparent;
+      color:#fff;
+      background:linear-gradient(135deg, #ef4444, #f97316);
     }
 
     .card{
-      margin-top:14px;
-      padding:14px;
-      border:1px solid var(--stroke);
-      border-radius: var(--r);
-      background: var(--card);
-      box-shadow: var(--shadow2);
-      backdrop-filter: blur(6px);
+      margin-top:12px;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
     }
-
-    .ok{border-color: rgba(18,183,106,.35)}
-    .err{border-color: rgba(240,68,56,.35)}
-    .warn{border-color: rgba(247,144,9,.35)}
-
-    .tabs{
-      display:flex;
-      gap:8px;
-      margin:14px 0 0;
-      padding:10px 0 0;
-    }
-    .tab{
-      padding:9px 12px;
-      border:1px solid var(--stroke);
-      border-radius:999px;
-      cursor:pointer;
-      user-select:none;
-      background: rgba(255,255,255,.85);
-      box-shadow: var(--shadow2);
-      font-weight:700;
-      color:#344054;
-    }
-    .tab.active{
-      background: linear-gradient(135deg, rgba(79,70,229,.14), rgba(124,58,237,.10));
-      border-color: rgba(79,70,229,.25);
-      color:#1d1b5f;
-    }
+    .ok{border-color:rgba(22,163,74,.5); background:rgba(22,163,74,.06)}
+    .err{border-color:rgba(239,68,68,.55); background:rgba(239,68,68,.06)}
+    .warn{border-color:rgba(245,158,11,.55); background:rgba(245,158,11,.06)}
+    .subtle{color:var(--muted); font-size:13px; line-height:1.4}
+    .kpi{color:#111827; font-weight:800}
 
     .sectionTitle{
-      font-weight:800;
-      margin:0 0 6px 0;
+      margin:10px 0 6px;
+      font-weight:900;
       display:flex;
       align-items:center;
       gap:8px;
     }
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    @media (max-width:640px){ .grid2{grid-template-columns:1fr} }
 
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:4px 10px;
+      display:inline-block;
+      padding:2px 10px;
       border-radius:999px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.8);
+      background:rgba(99,102,241,.10);
+      border:1px solid rgba(99,102,241,.20);
+      color:#3730a3;
       font-size:12px;
-      color:#344054;
-      font-weight:700;
+      font-weight:800;
     }
-
-    .mini{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:10px;
+    .list{
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:13px;
+      white-space:pre-wrap;
+      line-height:1.45;
     }
   </style>
 </head>
 <body>
 <div class="wrap">
-
   <div class="hero">
     <h2>🚗 Plaka Sorgulama</h2>
     <div class="muted">
@@ -177,108 +164,499 @@
 
     <div class="tabs">
       <div class="tab active" id="tabSearch">Sorgu</div>
-      <div class="tab" id="tabAdmin">Veri Güncelle</div>
+      <div class="tab" id="tabAdmin">Veri / Yönetim</div>
     </div>
   </div>
 
   <!-- SEARCH -->
-  <div id="viewSearch" class="card">
+  <div class="panel" id="viewSearch">
     <div class="sectionTitle">🔎 Sorgu</div>
     <input id="q" placeholder="Plaka" autocomplete="off" inputmode="text" />
     <div class="row">
-      <button class="btn-ghost" id="clear">Temizle</button>
-      <button class="btn-primary" id="paste">Panodan Yapıştır</button>
+      <button id="clear">Temizle</button>
+      <button class="primary" id="paste">Panodan Yapıştır</button>
     </div>
 
     <div id="out" class="card">Sonuç burada görünecek.</div>
     <div id="matches" class="card" style="display:none"></div>
 
-    <div class="mini" id="meta"></div>
+    <div class="subtle" style="margin-top:10px" id="meta"></div>
   </div>
 
   <!-- ADMIN -->
-  <div id="viewAdmin" class="card" style="display:none">
-    <div class="sectionTitle">🛠 Veri Yönetimi <span class="pill">Offline / cihazda saklanır</span></div>
-
-    <div class="card">
-      <b>CSV formatı</b> (her satır 1 plaka):
-      <div class="muted">
-        Kolon sırası: <code>plaka,blok,daire</code><br>
-        Örnek:
-        <pre style="white-space:pre-wrap;margin:8px 0 0 0">06 FN 087,C2 18,3
-34 MSK 302,C14,1
-35 CFM,C13,10</pre>
-        Not: Aynı dairede birden fazla araç varsa, her plakayı ayrı satır yaz.
-      </div>
+  <div class="panel" id="viewAdmin" style="display:none">
+    <div class="sectionTitle">🧩 Varsayılan veri</div>
+    <div class="card warn subtle">
+      Bu sayfa artık <b>ilk açılışta otomatik veri yükler</b> (localStorage boşsa).
+      Sonrasında yaptığın ekleme/silmeler cihazda saklanır.
     </div>
 
-    <div style="height:10px"></div>
+    <div class="sectionTitle">📥 Toplu CSV yükle</div>
+    <div class="card subtle">
+      CSV formatı (her satır 1 plaka). Kolon sırası: <span class="pill">plaka;blok;daire</span> veya <span class="pill">plaka,blok,daire</span><br>
+      Örnek:
+      <div class="list" style="margin-top:8px">06 FN 087;C2/18;3
+34 MSK 302;C14;1
+35 CFM;C13;10</div>
+    </div>
+
     <textarea id="csv" placeholder="Buraya CSV’yi yapıştır..."></textarea>
-
-    <!-- TEK PLAKA EKLE -->
-    <div class="card">
-      <b>Tek Plaka Ekle</b>
-      <div class="muted">3 alanı doldurup ekleyin. (Aynı plaka varsa uyarır.)</div>
-      <div class="row">
-        <input id="newPlaka" placeholder="Plaka (örn: 06 FN 087)">
-        <input id="newBlok" placeholder="Blok (örn: C2/47)">
-        <input id="newDaire" placeholder="Daire (örn: 2)">
-      </div>
-      <div class="row">
-        <button class="btn-primary" id="addSingle">Plakayı Ekle</button>
-      </div>
-    </div>
-
-    <!-- PLAKA SİL -->
-    <div class="card">
-      <b>Plaka Sil</b>
-      <div class="muted">Plakayı yazınca altta kayıt önizlemesi çıkar. (Girdiğin format korunur.)</div>
-      <div class="row">
-        <input id="delPlaka" placeholder="Silinecek plaka (örn: 06 FN 087)">
-      </div>
-      <div class="row">
-        <button class="btn-danger" id="deleteSingle">Plakayı Sil</button>
-      </div>
-      <div id="delPreview" class="card" style="display:none"></div>
-    </div>
-
     <div class="row">
-      <button class="btn-primary" id="import">CSV'yi Yükle / Kaydet</button>
-      <button class="btn-ghost" id="export">Mevcut Veriyi CSV Olarak Kopyala</button>
-      <button class="btn-danger" id="reset">Tüm Veriyi Sıfırla</button>
+      <button class="primary" id="import">CSV'yi Yükle / Kaydet</button>
+      <button id="export">Mevcut Veriyi CSV Olarak Kopyala</button>
+      <button class="danger" id="reset">Tüm Veriyi Sıfırla</button>
     </div>
+    <div id="adminOut" class="card subtle">Durum: —</div>
 
-    <div id="adminOut" class="card muted">Durum: —</div>
+    <div class="sectionTitle" style="margin-top:16px">➕ Plaka Ekle / Güncelle</div>
+    <div class="grid2">
+      <input id="addPlate" placeholder="Plaka (örn: 06 FN 087)" />
+      <input id="addBlok" placeholder="Blok (örn: C2/18)" />
+      <input id="addDaire" placeholder="Daire (örn: 3)" />
+      <select id="addMode">
+        <option value="upsert">Aynı plaka varsa GÜNCELLE</option>
+        <option value="add">Aynı plaka varsa YİNE EKLE (çakışma)</option>
+      </select>
+    </div>
+    <div class="row">
+      <button class="good" id="btnAdd">Kaydet</button>
+      <button id="btnAddClear">Temizle</button>
+    </div>
+    <div id="addOut" class="card subtle">Durum: —</div>
+
+    <div class="sectionTitle" style="margin-top:16px">🗑️ Plaka Sil</div>
+    <input id="delPlate" placeholder="Silinecek plakayı yazın (örn: 06 FN 087)" />
+    <div id="delPreview" class="card subtle" style="display:none"></div>
+    <div class="row">
+      <button class="danger" id="btnDelete">Bu plakayı sil</button>
+      <button id="btnDeleteClear">Temizle</button>
+    </div>
+    <div id="delOut" class="card subtle">Durum: —</div>
   </div>
+</div>
 
 <script>
+  // ====== DEFAULT DATA (senin gönderdiğin CSV) ======
+  const DEFAULT_CSV = `06DM1249;C2/47;2
+06FBC659;C2/47;2
+06DCC4557;C2/47;2
+06CEF136;C2/47;3
+06TD262;C2/47;3
+34DK9325;C2/47;4
+06ABN610;C2/47;5
+06RZ09;C2/47;5
+06DHA41;C2/47;7
+06DOV28;C2/47;7
+06ELE964;C2/47;8
+06DGP17;C2/47;9
+06EHH515;C2/47;10
+06CFG238;C2/47;11
+34BMB519;C2/47;11
+06BGP804;C2/47;12
+06DJH448;C2/47;13
+06CKS464;C2/47;14
+06FAG965;C2/47;15
+06DNG23;C2/47;16
+06ESZ289;C2/47;17
+06DRY59;C2/47;18
+06DEE388;C2/47;18
+31AEU90;C2/47;19
+54EK076;C2/47;21
+06CYE283;C2/47;21
+06BOB438;C2/47;21
+06ETB722;C2/47;21
+06CEL269;C2/47;22
+34HOE287;C2/47;22
+28ABF632;C2/47;22
+06DIH476;C2/47;23
+06SH44;C2/47;23
+06DSY77;C2/47;24
+06BP5833;C2/47;24
+06FU7968;C15;1
+06FEP17;C15;2
+06GJS42;C15;2
+06CFC287;C15;3
+06PNP16;C15;5
+06EHL701;C15;6
+06DGF474;C15;7
+06DJZ082;C15;8
+06ZHP67;C15;10
+06DVC61;C15;11
+77ACR986;C15;15
+59ZS975;C15;15
+06BCU088;C15;15
+06EHM377;C15;16
+06TJ718;C15;17
+06APK811;C15;18
+06BST099;C15;18
+06CNT665;C15;19
+06AY6301;C15;21
+34DJB836;C15;24
+06AC4992;C15;25
+06DOE973;C2/21;1
+22C94848;C2/21;2
+06DMZ751;C2/21;3
+06DME271;C2/21;3
+26DM912;C2/21;5
+06FFZ783;C2/21;5
+06DIT11;C2/21;6
+06FZ5914;C2/21;8
+06CPS985;C2/21;8
+06CZN149;C2/21;9
+06DU355;C2/21;9
+06EUG247;C2/21;10
+06EUR495;C2/21;10
+71ACH846;C2/21;11
+07ANC959;C2/21;11
+06FDF850;C2/21;12
+34LU6054;C2/21;13
+34FCM634;C2/21;13
+06FOD754;C2/21;14
+06ELR536;C2/21;15
+06CFT346;C2/21;16
+06DHE23;C2/21;17
+06ETL0421;C2/21;18
+06AH3523;C2/21;18
+06DBL57;C2/21;18
+53AC500;C2/21;19
+06KND27;C2/21;20
+06KND90;C2/21;20
+06BNN290;C2/21;21
+06ENY850;C2/21;21
+06EPF621;C2/21;22
+06EMP287;C2/21;23
+06DS6175;C2/21;24
+33ADN402;C2/21;24
+35ED506;C2/20;1
+34AK250;C2/20;2
+51ABV481;C2/20;5
+35HB955;C2/20;5
+06LTE16;C2/20;8
+06NT688;C2/20;8
+06DGC68;C2/20;9
+11AAB758;C2/20;9
+06FV6289;C2/20;10
+06DOE48;C2/20;10
+06EMT481;C2/20;11
+06AR5608;C2/20;11
+06BK6371;C2/20;12
+42CRD13;C2/20;13
+42BC013;C2/20;13
+35BSS171;C2/20;13
+06Z9987;C2/20;14
+06BS5370;C2/20;15
+26HC7212;C2/20;16
+06BPA012;C2/20;17
+34MUV286;C2/20;17
+06BOH065;C2/20;17
+06ED2211;C2/20;17
+06MSH23;C2/20;18
+06CJM133;C2/20;18
+06FJD660;C2/20;19
+06DCJ205;C2/20;19
+06EET187;C2/20;20
+34VJ1571;C2/20;21
+06BZZ231;C2/20;23
+06LEH89;C2/20;24
+06GLA99;C2/20;24
+06CTG349;C2/20;24
+06EPH741;C2/20;24
+06DTL22;C2/19;1
+06BH4223;C2/19;2
+06AL1197;C2/19;2
+34HCA357;C2/19;2
+34DJS014;C2/19;2
+06HB2739;C2/19;3
+06AEK232;C2/19;4
+06EGA32;C2/19;4
+06D3865;C2/19;4
+06EBA817;C2/19;4
+06BA4305;C2/19;5
+06FZS41;C2/19;6
+34EZ6083;C2/19;7
+06EMH536;C2/19;7
+06EYN362;C2/19;8
+34CAV290;C2/19;9
+06RYK17;C2/19;11
+06KDR01;C2/19;11
+58AR155;C2/19;13
+06AY3256;C2/19;14
+06 FHR 899;C2/19;14
+15 EU 899;C2/19;14
+06 BPC 988  ;C2/19;15
+06EOL833;C2/19;15
+06 DZN 72;C2/19;15
+07 NA 3422;C2/19;16
+06FFB540;C2/19;17
+06DTN32;C2/19;18
+06 CZU 38;C2/19;18
+06 ELD 828;C2/19;18
+34AGL17;C2/19;18
+06 FPM 391;C2/19;19
+80ABG775;C2/19;19
+06 ETS 830;C2/19;20
+06DFC963;C2/19;23
+06 EDH 787;C2/19;23
+06 ETY 978;C2/19;24
+03KR143;C2/22;1
+06AG8271;C2/22;2
+06EIS738;C2/22;3
+06ADE619;C2/22;4
+71DS285;C2/22;5
+06BRM645;C2/22;6
+06DIF19;C2/22;7
+06CGH845;C2/22;9
+61AHF043;C2/22;10
+06V4194;C2/22;11
+06BPF390;C2/22;12
+34HUV093;C2/22;12
+06FR2425;C2/22;13
+06EZT886;C2/22;15
+48ABN255;C2/22;15
+06CHJ151;C2/22;16
+06BAN253;C2/22;18
+34PBM770;C2/22;18
+ERM457;C2/22;18
+06DBVL906;C2/22;18
+06DTD248;C2/22;20
+36AAB692;C2/22;22
+06DRJ141;C2/22;23
+43RF780;C2/22;24
+06Y2870;C2/22;25
+39AEB788;C20;1
+06BF5276;C20;3
+06FJ3612;C20;4
+06EPT744;C20;5
+06DKF185;C20;6
+06BBZ226;C20;7
+34PV433;C20;8
+06EC9387;C20;8
+06DTN56;C20;9
+06CGA748;C20;10
+06MHD50;C20;11
+06FBH342;C20;12
+06BER406;C20;13
+06KMC62;C20;14
+06DUU73;C20;15
+01YD336;C20;15
+06DY5931;C20;15
+06CYM509;C20;16
+06DKC871;C20;17
+06AES236;C20;18
+06FOP375;C20;19
+06BSB164;C20;19
+06HG184;C20;20
+06DC5296;C20;20
+06DJK943;C20;20
+06FAY981;C20;21
+06ESF55;C20;21
+06EB2981;C20;22
+06AB5894;C20;22
+06ABN50;C20;22
+06FBC186;C20;24
+06FS8288;C20;24
+06ETJ448;C19;1
+06EKU947;C19;1
+06DSV57;C19;2
+06FJY582;C19;2
+06EFP506;C19;6
+06FMT179;C19;7
+26AFZ369;C19;7
+06FHH181;C19;8
+06FUIU903;C19;8
+06EME172;C19;9
+06FNN467;C19;10
+67ABY825;C19;10
+09D0613;C19;10
+06FIP568;C19;11
+34DCE495;C19;11
+06ACU826;C19;11
+06DAR649;C19;12
+06TLT20;C19;14
+06BGT636;C19;14
+06FLK941;C19;14
+06BMD820;C19;15
+06DYR409;C19;16
+06FLL916;C19;16
+06BNP182;C19;17
+06FNY621;C19;17
+06ADM138;C19;19
+06GYM97;C19;19
+06EPY388;C19;20
+06DIC43;C19;21
+34KIA33;C19;21
+06FHA727;C19;22
+07BLY715;C19;22
+61ACE132;C19;25
+77ABN354;C18;2
+06FF2175;C18;3
+06RVN99;C18;4
+06BPL513;C18;6
+20ADT398;C18;7
+34PV9040;C18;8
+06EC9190;C18;9
+06FHJ469;C18;11
+06CCA332;C18;11
+06AAJ287;C18;12
+06DSZ43;C18;12
+05KK529;C18;13
+38DT480;C18;15
+06EU4769;C18;15
+06DZ4269;C18;16
+06AAG668;C18;16
+06DZP265;C18;19
+06EFN244;C18;20
+46DM120;C18;21
+06ABH229;C18;21
+06FU920;C18;21
+06CKP971;C18;22
+06KO0650;C18;22
+06EHF0646;C18;22
+06JTN17;C18;23
+06GB0196;C18;23
+06JTN23;C18;23
+06ADN944;C17;4
+06BDF150;C17;6
+06FKL109;C17;8
+06AY6398;C17;9
+06DK6264;C17;11
+06UD489;C17;12
+06BKN649;C17;12
+06ADH940;C17;13
+06AJ1034;C17;14
+06CEJ968;C17;15
+06FM7919;C17;16
+06AG4451;C17;16
+10AAS347;C17;16
+54FB412;C17;17
+06KZ998;C17;18
+41AIA803;C17;18
+06FAH312;C17;18
+06BY574;C17;18
+06BAD829;C17;19
+26PS411;C17;20
+06FJT963;C17;21
+06JJ287;C17;21
+06AG5971;C17;22
+34VT1061;C17;23
+07P5945;C17;24
+34MSK302;C14;1
+46ABY333;C14;2
+06YH545;C14;3
+06DZB188;C14;5
+66LH691;C14;6
+06VZY17;C14;6
+06COB620;C14;6
+06DKZ399;C14;6
+06EVA646;C14;7
+17AGG313;C14;7
+06BV6644;C14;8
+34FGK772;C14;8
+06ET1145;C14;9
+21EF664;C14;10
+06EVB949;C14;11
+06KE652;C14;12
+66AAG164;C14;13
+06DN8088;C14;13
+06DPU99;C14;13
+20AHJ830;C14;14
+06CBU432;C14;14
+06DBS893;C14;15
+06BA4458;C14;16
+44EB627;C14;17
+06GE1961;C14;18
+34GYU620;C14;19
+01DFG86;C14;19
+06FAZ726;C14;20
+06DE440;C14;20
+06AFA335;C14;21
+06FGF229;C14;21
+06ADM11;C14;22
+10AY282;C14;24
+06DOL78;C14;24
+06BFM84;C14;25
+06EOA187;C13;1
+06DJE55;C13;2
+06AL5181;C13;3
+06FR1108;C13;4
+06DSM711;C13;6
+06EC1998;C13;7
+06DY3348;C13;8
+35TUF73;C13;9
+06AH9122;C13;10
+35CFM;C13;10
+06CZV370;C13;11
+06EBS278;C13;12
+42ACC346;C13;14
+06ERJ774;C13;15
+34CDZ527;C13;15
+06BUB123;C13;16
+16BMK205;C13;17
+06FD119;C13;18
+06DIU23;C13;19
+06YA1798;C13;20
+27AAV746;C13;21
+06KY316;C13;22
+06EF525;C13;22
+06SRK20;C13;22
+06TIC66;C13;23
+06DU512;C13;25
+26NZ816;C2/18;1
+06DA3838;C2/18;2
+06FN087;C2/18;3
+06DGN82;C2/18;3
+06EMY050;C2/18;4
+06EBG557;C2/18;5
+06DEF394;C2/18;5
+06ELB527;C2/18;6
+06BAH934;C2/18;6
+06HF195;C2/18;7
+06GUR35;C2/18;8
+66ABZ255;C2/18;9
+78AK187;C2/18;10
+06DKH092;C2/18;11
+06FN2411;C2/18;11
+06ETZ674;C2/18;11
+34KU5592;C2/18;12
+42E4869;C2/18;12
+42BBF456;C2/18;12
+06EMC142;C2/18;13
+06BLM756;C2/18;14
+06DMG484;C2/18;14
+26ABF012;C2/18;15
+06DOS050;C2/18;16
+06H2740;C2/18;16
+34NV6617;C2/18;17
+06DJE01;C2/18;18
+06CEY375;C2/18;18
+67AN035;C2/18;19
+06FZ9443;C2/18;20
+06DYZ13;C2/18;21
+06FNC874;C2/18;21
+34U2037;C2/18;22
+06SD0400;C2/18;22
+06EHS082;C2/18;23
+06J1127;C2/18;23
+06FKU358;C2/18;24
+01RB767;C2/18;25`;
+
+  // ====== CORE ======
   function norm(s){
     return (s||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
   }
-
-  const STORAGE_KEY = "plaka_sorgu_data_v1";
+  const STORAGE_KEY = "plaka_sorgu_data_v2"; // v2 (yeni düzen)
 
   function loadData(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(!raw) return [];
     try { return JSON.parse(raw); } catch { return []; }
   }
-
   function saveData(arr){
     localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
   }
 
-  function buildIndex(arr){
-    const idx = new Map();
-    for(const r of arr){
-      const k = norm(r.plaka);
-      if(!k) continue;
-      if(!idx.has(k)) idx.set(k, r);
-    }
-    return idx;
-  }
-
   function buildMultiIndex(arr){
+    // plakaNorm -> [kayıtlar]
     const m = new Map();
     for(const r of arr){
       const k = norm(r.plaka);
@@ -288,13 +666,24 @@
     }
     return m;
   }
+  function buildIndex(arr){
+    // plakaNorm -> ilk kayıt
+    const idx = new Map();
+    for(const r of arr){
+      const k = norm(r.plaka);
+      if(!k) continue;
+      if(!idx.has(k)) idx.set(k, r);
+    }
+    return idx;
+  }
 
   function parseCSV(text){
     const rows = [];
     const lines = (text||"").split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
 
     for(let ln of lines){
-      if(/blok|daire|plaka/i.test(ln)) continue;
+      // başlık satırlarını atla
+      if(/^\s*(blok|daire|plaka)\b/i.test(ln)) continue;
 
       let parts;
       if(ln.includes(";")) parts = ln.split(";");
@@ -302,22 +691,29 @@
       else if(ln.includes("\t")) parts = ln.split("\t");
       else parts = ln.split(/\s+/);
 
-      if(parts.length < 3) continue;
-      parts = parts.map(p=>p.trim());
+      parts = parts.map(p => (p||"").trim()).filter(p=>p.length>0);
 
-      let plaka, blok, daire;
-      if(/^\d{2}/.test(parts[0])){
-        plaka = parts[0]; blok = parts[1]; daire = parts[2];
-      } else {
-        blok = parts[0]; daire = parts[1]; plaka = parts[2];
+      if(parts.length < 3) continue;
+
+      // "plaka;blok;daire" bekliyoruz. Ama yanlış sıradaysa düzelt.
+      let plaka = parts[0], blok = parts[1], daire = parts[2];
+
+      // Eğer ilk parça blok gibi başlıyorsa (C... gibi), demek ki "blok;daire;plaka"
+      if(/^[A-Z]\d/i.test(parts[0]) || /^C\d/i.test(parts[0])){
+        blok  = parts[0];
+        daire = parts[1];
+        plaka = parts[2];
       }
 
-      rows.push({ plaka, blok, daire });
+      // boş plaka satırlarını geç
+      if(!norm(plaka)) continue;
+
+      rows.push({ plaka: plaka.trim(), blok: (blok||"").trim(), daire: (daire||"").trim() });
     }
     return rows;
   }
 
-  // UI: tabs
+  // ====== UI: tabs ======
   const tabSearch = document.getElementById("tabSearch");
   const tabAdmin  = document.getElementById("tabAdmin");
   const viewSearch = document.getElementById("viewSearch");
@@ -330,24 +726,34 @@
     viewSearch.style.display = isSearch ? "" : "none";
     viewAdmin.style.display  = isSearch ? "none" : "";
   }
-
   tabSearch.onclick = ()=>show("search");
   tabAdmin.onclick  = ()=>show("admin");
 
-  // search logic
+  // ====== DATA INIT (otomatik yükle) ======
+  let DATA = loadData();
+  if(DATA.length === 0){
+    const seeded = parseCSV(DEFAULT_CSV);
+    saveData(seeded);
+    DATA = seeded;
+  }
+
+  let MULTI = buildMultiIndex(DATA);
+  let IDX = buildIndex(DATA);
+
+  function refreshIndexes(){
+    DATA = loadData();
+    MULTI = buildMultiIndex(DATA);
+    IDX = buildIndex(DATA);
+    meta.textContent = `Tekil plaka: ${IDX.size} | Toplam satır: ${DATA.length}`;
+  }
+
+  // ====== SEARCH ======
   const q = document.getElementById("q");
   const out = document.getElementById("out");
   const matches = document.getElementById("matches");
   const meta = document.getElementById("meta");
 
-  let DATA = loadData();
-  let MULTI = buildMultiIndex(DATA);
-  let IDX = buildIndex(DATA);
-
-  function refreshMeta(){
-    meta.textContent = `Tekil plaka: ${IDX.size} | Toplam satır: ${DATA.length}`;
-  }
-  refreshMeta();
+  refreshIndexes();
 
   function render(){
     const raw = q.value || "";
@@ -361,6 +767,7 @@
       return;
     }
 
+    // tam eşleşme
     const exactList = MULTI.get(key);
     if(exactList && exactList.length){
       const r = exactList[0];
@@ -369,12 +776,14 @@
         `✅ <b>${raw.toUpperCase()}</b><br>` +
         `Blok: <b>${r.blok || "—"}</b><br>` +
         `Daire: <b>${r.daire || "—"}</b>` +
-        (exactList.length > 1 ? `<br><span class="muted">⚠ Bu plaka ${exactList.length} kez girilmiş (çakışma).</span>` : "");
+        (exactList.length > 1 ? `<br><span class="subtle">⚠ Bu plaka ${exactList.length} kez girilmiş (çakışma).</span>` : "");
+
       matches.style.display = "none";
       matches.innerHTML = "";
       return;
     }
 
+    // kısmi arama (maks 25)
     const found = [];
     for(const [p, arr] of MULTI.entries()){
       if(p.includes(key)) found.push([p, arr]);
@@ -396,8 +805,10 @@
     matches.className = "card";
     matches.innerHTML = found.map(([p, arr]) => {
       const r = arr[0];
-      return `• <b>${p}</b> → ${r.blok || "—"} / ${r.daire || "—"}` +
-             (arr.length>1 ? ` <span class="muted">(⚠ ${arr.length} kez)</span>` : "");
+      // kullanıcıya "norm" yerine kayıtlı plaka örneğini de gösterelim
+      const examplePlate = r.plaka || p;
+      return `• <b>${examplePlate}</b> <span class="subtle">(${p})</span> → ${r.blok || "—"} / ${r.daire || "—"}` +
+             (arr.length>1 ? ` <span class="subtle">(⚠ ${arr.length} kez)</span>` : "");
     }).join("<br>");
   }
 
@@ -420,7 +831,7 @@
     }
   });
 
-  // admin logic
+  // ====== ADMIN: import/export/reset ======
   const csvBox = document.getElementById("csv");
   const adminOut = document.getElementById("adminOut");
 
@@ -428,150 +839,25 @@
     const rows = parseCSV(csvBox.value);
     if(rows.length === 0){
       adminOut.className = "card err";
-      adminOut.textContent = "❌ CSV’den hiç kayıt okunamadı. Format: plaka,blok,daire (veya ; / TAB da olur)";
+      adminOut.textContent = "❌ CSV’den hiç kayıt okunamadı. Format: plaka;blok;daire (veya , / TAB)";
       return;
     }
-
     saveData(rows);
-    DATA = rows;
-    MULTI = buildMultiIndex(DATA);
-    IDX = buildIndex(DATA);
-    refreshMeta();
+    refreshIndexes();
+
+    // çakışma say
+    let dupCount = 0;
+    for(const [p, arr] of MULTI.entries()) if(arr.length > 1) dupCount++;
 
     adminOut.className = "card ok";
     adminOut.innerHTML =
       `✅ Yüklendi.<br>` +
-      `• Toplam satır: <b>${DATA.length}</b><br>` +
-      `• Tekil plaka: <b>${IDX.size}</b>`;
+      `• Toplam satır: <b class="kpi">${DATA.length}</b><br>` +
+      `• Tekil plaka: <b class="kpi">${IDX.size}</b><br>` +
+      `• Çakışan plaka: <b class="kpi">${dupCount}</b>`;
 
     show("search");
     q.focus();
-    render();
-  });
-
-  // Tek plaka ekle
-  document.getElementById("addSingle").addEventListener("click", () => {
-    const plaka = document.getElementById("newPlaka").value.trim();
-    const blok  = document.getElementById("newBlok").value.trim();
-    const daire = document.getElementById("newDaire").value.trim();
-
-    if(!plaka || !blok || !daire){
-      adminOut.className = "card err";
-      adminOut.textContent = "❌ Plaka, Blok ve Daire alanlarının üçünü de doldurun.";
-      return;
-    }
-
-    const key = norm(plaka);
-    if(MULTI.has(key)){
-      adminOut.className = "card err";
-      adminOut.innerHTML = `⚠️ Bu plaka zaten kayıtlı: <b>${key}</b>`;
-      return;
-    }
-
-    DATA.push({ plaka, blok, daire });
-    saveData(DATA);
-
-    MULTI = buildMultiIndex(DATA);
-    IDX = buildIndex(DATA);
-    refreshMeta();
-
-    document.getElementById("newPlaka").value = "";
-    document.getElementById("newBlok").value = "";
-    document.getElementById("newDaire").value = "";
-
-    adminOut.className = "card ok";
-    adminOut.innerHTML = `✅ Eklendi: <b>${key}</b> → <b>${blok}</b> / <b>${daire}</b>`;
-  });
-
-  // Silme önizleme
-  const delPlakaInput = document.getElementById("delPlaka");
-  const delPreview = document.getElementById("delPreview");
-
-  delPlakaInput.addEventListener("input", () => {
-    const raw = delPlakaInput.value || "";
-    const key = norm(raw);
-
-    if(!key){
-      delPreview.style.display = "none";
-      delPreview.innerHTML = "";
-      return;
-    }
-
-    const exactList = MULTI.get(key);
-    if(exactList && exactList.length){
-      delPreview.style.display = "";
-      delPreview.className = "card ok";
-      delPreview.innerHTML =
-        `🧾 Girilen: <b>${raw}</b><br>` +
-        exactList.map(r => `• Kayıt: <b>${raw}</b> → <b>${r.blok}</b> / <b>${r.daire}</b>`).join("<br>") +
-        (exactList.length > 1 ? `<br><span class="muted">⚠ Bu plaka ${exactList.length} kez kayıtlı (silince hepsi gider).</span>` : "");
-      return;
-    }
-
-    const found = [];
-    for(const [p, arr] of MULTI.entries()){
-      if(p.includes(key)) found.push([p, arr]);
-      if(found.length >= 15) break;
-    }
-
-    if(found.length === 0){
-      delPreview.style.display = "";
-      delPreview.className = "card err";
-      delPreview.innerHTML = `❌ Bulunamadı: <b>${raw}</b>`;
-      return;
-    }
-
-    delPreview.style.display = "";
-    delPreview.className = "card warn";
-    delPreview.innerHTML =
-      `🔎 Tam eşleşme yok. Benzer kayıtlar:<br>` +
-      found.map(([p, arr]) => {
-        const r = arr[0];
-        return `• <b>${p}</b> → <b>${r.blok}</b> / <b>${r.daire}</b>` +
-               (arr.length>1 ? ` <span class="muted">(⚠ ${arr.length} kez)</span>` : "");
-      }).join("<br>") +
-      `<br><span class="muted">İpucu: Silmek için tam plakayı yazın.</span>`;
-  });
-
-  // Plaka sil (buton)
-  document.getElementById("deleteSingle").addEventListener("click", () => {
-    const plakaRaw = delPlakaInput.value.trim();
-
-    if(!plakaRaw){
-      adminOut.className = "card err";
-      adminOut.textContent = "❌ Silmek için plaka girin.";
-      return;
-    }
-
-    const key = norm(plakaRaw);
-    const existing = MULTI.get(key);
-
-    if(!existing || existing.length === 0){
-      adminOut.className = "card err";
-      adminOut.innerHTML = `❌ Bulunamadı: <b>${key}</b>`;
-      return;
-    }
-
-    const msg = existing.length === 1
-      ? `Plaka silinsin mi?\n\n${key} → ${existing[0].blok} / ${existing[0].daire}`
-      : `Bu plaka ${existing.length} kez kayıtlı (çakışma).\nHepsi silinsin mi?\n\n${key}`;
-
-    if(!confirm(msg)) return;
-
-    DATA = DATA.filter(r => norm(r.plaka) !== key);
-    saveData(DATA);
-
-    MULTI = buildMultiIndex(DATA);
-    IDX = buildIndex(DATA);
-    refreshMeta();
-
-    delPlakaInput.value = "";
-    delPreview.style.display = "none";
-    delPreview.innerHTML = "";
-
-    adminOut.className = "card ok";
-    adminOut.innerHTML = `🗑️ Silindi: <b>${key}</b>`;
-
     render();
   });
 
@@ -582,45 +868,181 @@
       adminOut.textContent = "❌ Kayıt yok.";
       return;
     }
-    const csv = arr.map(r => `${r.plaka},${r.blok},${r.daire}`).join("\n");
+    const csv = arr.map(r => `${r.plaka};${r.blok};${r.daire}`).join("\n");
     try{
       await navigator.clipboard.writeText(csv);
       adminOut.className = "card ok";
       adminOut.textContent = "✅ Mevcut veri panoya kopyalandı.";
     }catch{
       adminOut.className = "card";
-      adminOut.textContent = "Panoya yazılamadı. Metni manuel kopyalayabilirsiniz:\n\n" + csv;
+      adminOut.innerHTML = "Panoya yazılamadı. Aşağıdakini manuel kopyalayın:\n\n<div class='list'>"+csv.replaceAll("<","&lt;")+"</div>";
     }
   });
 
   document.getElementById("reset").addEventListener("click", () => {
-    if(confirm("Tüm veriyi silmek istiyor musunuz?")){
+    if(confirm("Tüm veriyi silmek istiyor musunuz? (Varsayılan veri tekrar yüklenecek)")){
       localStorage.removeItem(STORAGE_KEY);
-      DATA = [];
-      MULTI = buildMultiIndex(DATA);
-      IDX = buildIndex(DATA);
-      refreshMeta();
-
-      adminOut.className = "card";
-      adminOut.textContent = "🗑️ Veri sıfırlandı.";
-
+      const seeded = parseCSV(DEFAULT_CSV);
+      saveData(seeded);
+      refreshIndexes();
+      adminOut.className = "card ok";
+      adminOut.textContent = "✅ Sıfırlandı ve varsayılan veri tekrar yüklendi.";
       q.value = "";
-      out.className = "card err";
-      out.innerHTML = "⚠️ Henüz veri yüklenmemiş. <b>Veri Güncelle</b> sekmesinden CSV yapıştırıp kaydedin.";
-      matches.style.display = "none";
-      matches.innerHTML = "";
-
-      delPlakaInput.value = "";
-      delPreview.style.display = "none";
-      delPreview.innerHTML = "";
+      render();
     }
   });
 
-  if(IDX.size === 0){
-    out.className = "card err";
-    out.innerHTML = "⚠️ Henüz veri yüklenmemiş. <b>Veri Güncelle</b> sekmesinden CSV yapıştırıp kaydedin.";
+  // ====== ADMIN: add/upsert ======
+  const addPlate = document.getElementById("addPlate");
+  const addBlok  = document.getElementById("addBlok");
+  const addDaire = document.getElementById("addDaire");
+  const addMode  = document.getElementById("addMode");
+  const addOut   = document.getElementById("addOut");
+
+  function clearAdd(){
+    addPlate.value = "";
+    addBlok.value = "";
+    addDaire.value = "";
+    addMode.value = "upsert";
+    addOut.className = "card subtle";
+    addOut.textContent = "Durum: —";
   }
+
+  document.getElementById("btnAddClear").addEventListener("click", clearAdd);
+
+  document.getElementById("btnAdd").addEventListener("click", () => {
+    const pRaw = (addPlate.value||"").trim();
+    const bRaw = (addBlok.value||"").trim();
+    const dRaw = (addDaire.value||"").trim();
+
+    if(!norm(pRaw)){
+      addOut.className = "card err";
+      addOut.textContent = "❌ Plaka boş/yanlış görünüyor.";
+      return;
+    }
+    if(!bRaw || !dRaw){
+      addOut.className = "card err";
+      addOut.textContent = "❌ Blok ve daire zorunlu.";
+      return;
+    }
+
+    let arr = loadData();
+    const key = norm(pRaw);
+
+    if(addMode.value === "upsert"){
+      // aynı plakayı tamamen temizle, tek kayıt olarak ekle
+      arr = arr.filter(r => norm(r.plaka) !== key);
+      arr.push({ plaka: pRaw, blok: bRaw, daire: dRaw });
+      saveData(arr);
+      refreshIndexes();
+
+      addOut.className = "card ok";
+      addOut.innerHTML = `✅ Kaydedildi / güncellendi: <b>${pRaw}</b> → ${bRaw}/${dRaw}`;
+    }else{
+      // aynı plakaya izin ver (çakışma)
+      arr.push({ plaka: pRaw, blok: bRaw, daire: dRaw });
+      saveData(arr);
+      refreshIndexes();
+
+      const count = (MULTI.get(key)||[]).length;
+      addOut.className = "card warn";
+      addOut.innerHTML = `✅ Eklendi (çakışma modu): <b>${pRaw}</b> → ${bRaw}/${dRaw}<br><span class="subtle">Bu plaka artık ${count} kayıt içeriyor.</span>`;
+    }
+
+    // aramada da hemen görünsün
+    q.value = pRaw;
+    render();
+  });
+
+  // ====== ADMIN: delete with preview ======
+  const delPlate = document.getElementById("delPlate");
+  const delPreview = document.getElementById("delPreview");
+  const delOut = document.getElementById("delOut");
+
+  function updateDeletePreview(){
+    const raw = (delPlate.value||"").trim();
+    const key = norm(raw);
+
+    if(!key){
+      delPreview.style.display = "none";
+      delPreview.innerHTML = "";
+      return;
+    }
+
+    const arr = loadData();
+    const list = arr.filter(r => norm(r.plaka) === key);
+
+    if(list.length === 0){
+      delPreview.style.display = "";
+      delPreview.className = "card err";
+      delPreview.innerHTML = `❌ Bu plakaya ait kayıt bulunamadı: <b>${raw.toUpperCase()}</b>`;
+      return;
+    }
+
+    // kullanıcı nasıl girdi ise onu göster (r.plaka)
+    delPreview.style.display = "";
+    delPreview.className = "card warn";
+    delPreview.innerHTML =
+      `Silinecek kayıtlar (<b>${list.length}</b> adet):<br>` +
+      `<div class="list" style="margin-top:8px">` +
+      list.map((r,i)=>`${i+1}) ${r.plaka} ; ${r.blok} ; ${r.daire}`).join("\n") +
+      `</div>` +
+      `<div class="subtle" style="margin-top:8px">Not: Bu plaka birden fazla satırda varsa hepsi silinir.</div>`;
+  }
+
+  delPlate.addEventListener("input", updateDeletePreview);
+
+  document.getElementById("btnDeleteClear").addEventListener("click", () => {
+    delPlate.value = "";
+    delPreview.style.display = "none";
+    delPreview.innerHTML = "";
+    delOut.className = "card subtle";
+    delOut.textContent = "Durum: —";
+  });
+
+  document.getElementById("btnDelete").addEventListener("click", () => {
+    const raw = (delPlate.value||"").trim();
+    const key = norm(raw);
+
+    if(!key){
+      delOut.className = "card err";
+      delOut.textContent = "❌ Silmek için plaka yazmalısınız.";
+      return;
+    }
+
+    const arr = loadData();
+    const toDelete = arr.filter(r => norm(r.plaka) === key);
+
+    if(toDelete.length === 0){
+      delOut.className = "card err";
+      delOut.textContent = "❌ Bu plakaya ait kayıt yok.";
+      updateDeletePreview();
+      return;
+    }
+
+    if(!confirm(`"${raw}" plakası için ${toDelete.length} kayıt silinecek. Emin misiniz?`)){
+      return;
+    }
+
+    const kept = arr.filter(r => norm(r.plaka) !== key);
+    saveData(kept);
+    refreshIndexes();
+
+    delOut.className = "card ok";
+    delOut.innerHTML = `✅ Silindi: <b>${raw}</b> (silinen ${toDelete.length} kayıt)`;
+
+    // preview temizle
+    delPreview.style.display = "none";
+    delPreview.innerHTML = "";
+
+    // arama alanını da güncelle
+    if(norm(q.value) === key){
+      render();
+    }
+  });
+
+  // ilk render
+  render();
 </script>
-</div>
 </body>
 </html>

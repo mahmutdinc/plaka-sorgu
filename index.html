@@ -288,6 +288,17 @@
 
   const csvBox = document.getElementById("csv");
   const adminOut = document.getElementById("adminOut");
+  document.getElementById("fillCsv").addEventListener("click", () => {
+  if(!DATA || DATA.length === 0){
+    adminOut.className = "card err";
+    adminOut.textContent = "❌ Yüklü veri yok.";
+    return;
+  }
+
+  csvBox.value = DATA.map(r => `${r.plaka};${r.blok};${r.daire}`).join("\n");
+  adminOut.className = "card ok";
+  adminOut.textContent = "✅ CSV alanı mevcut verilerle dolduruldu.";
+});
 
   const addPlate = document.getElementById("addPlate");
   const addBlock = document.getElementById("addBlock");
@@ -593,6 +604,7 @@
     });
   }
 </script>
+
 
 
 

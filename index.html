@@ -591,6 +591,14 @@
   }
 </script>
 
+fetch("./data.csv")
+  .then(r => r.text())
+  .then(t => {
+    DATA = parseCSV(t);
+    MULTI = buildMultiIndex(DATA);
+    IDX = buildIndex(DATA);
+    render();
+  });
 
 
 

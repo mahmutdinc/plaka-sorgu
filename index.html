@@ -157,7 +157,15 @@
         </div>
 
         <div class="hr"></div>
+<label>CSV Verisi (düzenleyip kaydedebilirsiniz)</label>
+<textarea id="csv" placeholder="Buraya CSV yapıştır..."></textarea>
 
+<div class="row">
+  <button class="primary" id="import">CSV'yi Yükle / Kaydet</button>
+  <button id="fillCsv">CSV Alanını Doldur</button>
+  <button id="export">Mevcut Veriyi CSV Olarak Kopyala</button>
+  <button id="reset">Tüm Veriyi Sıfırla (data.csv'den tekrar yükler)</button>
+</div>
         <div class="hr"></div>
 
         <label>Plaka sil</label>
@@ -299,14 +307,7 @@
   let DATA = [];
   let MULTI = new Map();
   let IDX = new Map();
-  fetch("data.csv")
-  .then(r => r.text())
-  .then(t => {
-    DATA = parseCSV(t);
-    MULTI = buildMultiIndex(DATA);
-    IDX = buildIndex(DATA);
-    render();
-  });
+ 
 
   function refreshMeta(){
     meta.textContent = `Tekil plaka: ${IDX.size} | Toplam satır: ${DATA.length}`;
@@ -607,6 +608,7 @@ fetch("./data.csv")
     IDX = buildIndex(DATA);
     render();
   });
+
 
 
 

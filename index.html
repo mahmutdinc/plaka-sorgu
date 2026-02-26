@@ -100,7 +100,12 @@
   <h2>🚗 Plaka Sorgulama</h2>
   <div class="muted">
     Plakayı yazın: <span class="pill mono">06ABC06</span> / <span class="pill mono">06 ABC 06</span> / <span class="pill mono">06-ABC-06</span> (boşluk/tire fark etmez)
-
+    <div class="small" style="margin-top:6px">
+      <span class="pill">Otomatik veri yükleme</span>
+      <span class="pill">Offline çalışma</span>
+      <span class="pill">Ekle / Sil / CSV</span>
+    </div>
+  </div>
 
   <div class="tabs">
     <div class="tab active" id="tabSearch">Sorgu</div>
@@ -133,7 +138,7 @@
         <b>CSV formatı</b> (her satır 1 plaka)
         <div class="muted small" style="margin-top:6px">
           Kolon sırası: <span class="pill mono">plaka;blok;daire</span> (virgül/TAB da olur)<br>
-          
+          Not: Aynı dairede birden fazla araç varsa, her plakayı ayrı satır yaz.
         </div>
 
         <div class="hr"></div>
@@ -157,15 +162,16 @@
         </div>
 
         <div class="hr"></div>
-<label>CSV Verisi (düzenleyip kaydedebilirsiniz)</label>
-<textarea id="csv" placeholder="Buraya CSV yapıştır..."></textarea>
 
-<div class="row">
+        <label>CSV Verisi (düzenleyip kaydedebilirsiniz)</label>
+        <textarea id="csv" placeholder="Buraya CSV yapıştır..."></textarea>
+        <div class="row">
   <button class="primary" id="import">CSV'yi Yükle / Kaydet</button>
   <button id="fillCsv">CSV Alanını Doldur</button>
   <button id="export">Mevcut Veriyi CSV Olarak Kopyala</button>
   <button id="reset">Tüm Veriyi Sıfırla (data.csv'den tekrar yükler)</button>
 </div>
+
         <div class="hr"></div>
 
         <label>Plaka sil</label>
@@ -307,7 +313,6 @@
   let DATA = [];
   let MULTI = new Map();
   let IDX = new Map();
- 
 
   function refreshMeta(){
     meta.textContent = `Tekil plaka: ${IDX.size} | Toplam satır: ${DATA.length}`;
@@ -599,20 +604,6 @@
     });
   }
 </script>
-
-fetch("./data.csv")
-  .then(r => r.text())
-  .then(t => {
-    DATA = parseCSV(t);
-    MULTI = buildMultiIndex(DATA);
-    IDX = buildIndex(DATA);
-    render();
-  });
-
-
-
-
-
 
 
 

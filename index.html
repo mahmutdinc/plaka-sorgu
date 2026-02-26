@@ -299,6 +299,14 @@
   let DATA = [];
   let MULTI = new Map();
   let IDX = new Map();
+  fetch("data.csv")
+  .then(r => r.text())
+  .then(t => {
+    DATA = parseCSV(t);
+    MULTI = buildMultiIndex(DATA);
+    IDX = buildIndex(DATA);
+    render();
+  });
 
   function refreshMeta(){
     meta.textContent = `Tekil plaka: ${IDX.size} | Toplam satır: ${DATA.length}`;
@@ -599,6 +607,7 @@ fetch("./data.csv")
     IDX = buildIndex(DATA);
     render();
   });
+
 
 
 
